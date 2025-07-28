@@ -1,0 +1,128 @@
+Project Name: TaskFlow Pro (Modern Livewire-Based Task Manager)
+
+🚀 Goal:
+Build a modern Laravel + Livewire app using:
+
+✅ Eloquent Relationships (1:1, 1:M, M:M)
+
+✅ Livewire reactivity & events
+
+✅ Modern Validation techniques
+
+✅ Notifications
+
+✅ Service class architecture (Service Container)
+
+✅ Optional: File uploads, soft deletes, filters, sorting
+
+📁 Recommended Folder Structure
+
+app/
+├── Http/
+│   ├── Livewire/
+│   │   ├── Tasks/
+│   │   │   ├── Index.php
+│   │   │   ├── Create.php
+│   │   │   └── Edit.php
+│   └── Controllers/
+├── Models/
+│   ├── Task.php
+│   ├── TaskNote.php
+│   └── User.php
+├── Services/
+│   └── TaskService.php
+├── Forms/
+│   └── TaskForm.php
+├── Notifications/
+│   └── TaskCreated.php
+├── Actions/
+│   └── CreateTaskAction.php
+resources/
+├── views/
+│   ├── livewire/
+│   │   └── tasks/
+│   │       ├── index.blade.php
+│   │       └── form.blade.php
+│   └── layouts/
+│       └── app.blade.php
+routes/
+├── web.php
+
+🛠️ Feature-Based Roadmap
+
+✅ Phase 1: Basic Setup
+ Install Laravel + Livewire
+
+ Create Task model + migration
+
+ Set up base layout
+
+ Create Livewire component: Tasks/Index
+
+✅ Phase 2: CRUD Operations (Livewire)
+ Display task list (Tasks/Index)
+
+ Create task component (Tasks/Create)
+
+ Edit task component (Tasks/Edit)
+
+ Use Alpine.js for modals
+
+ Pagination, searching, filtering (Livewire)
+
+✅ Phase 3: Relationships
+ User has many Tasks (1:M)
+
+ Task has one Note (1:1)
+
+ Tasks shared with many users (M:M)
+
+ Add relationships to models
+
+ Show task note and shared users in task card
+
+✅ Phase 4: Validation (Modern)
+ Create Forms/TaskForm.php with reusable rules/messages
+
+ Use validateOnly() for real-time validation
+
+ Optional: Use #[Rule] attribute (Livewire v3)
+
+✅ Phase 5: Service Layer (Business Logic)
+ Create Services/TaskService.php
+
+ Move task creation, updating, toggling to service
+
+ Inject service into Livewire components
+
+✅ Phase 6: Notifications
+ Create Notifications/TaskCreated.php
+
+ Notify current user on new task
+
+ Use database notification channel
+
+✅ Phase 7: Action Classes (Optional but modern)
+ Create Actions/CreateTaskAction.php
+
+ Accept validated data and return created task
+
+ Call in Livewire: CreateTaskAction::run($data)
+
+✅ Phase 8: UI Polish (Optional)
+ Use TailwindCSS for responsive UI
+
+ Add dark mode toggle
+
+ Add icons for complete/delete
+
+ Add toast notifications
+
+✅ Phase 9: Optional Add-ons
+ File upload with Livewire (attachments)
+
+ Soft delete tasks
+
+ Filters: completed, uncompleted, shared
+
+ Sort by created_at, title
