@@ -5,31 +5,28 @@ namespace App\Livewire\Tasks;
 use App\DTOs\TaskData;
 use App\Models\Task;
 use App\Services\Task\TaskServiceInterface;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\StoreTaskRequest;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
+    use WithPagination;
+
     public ?int $taskId = null;
     public string $title = '';
     public string $description = '';
-    public $tasks;
+    public $perPage = 3;
 
-    public function mount()
-    {
-        // For listing or initial setup
-        $this->tasks = Task::all();
-    }
-    
     public function save(TaskServiceInterface $service) {
-        $this->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
 
-        $data = new TaskData([
-            'title' => $this->title,
-            'description' => $this->description,
-        ]);
+        $validated = $this->validate(
+            (new StoreTaskRequest())->rules(),
+            (new StoreTaskRequest())->messages()
+        );
+
+        $data = new TaskData($validated);
 
         if ($this->taskId) {
             $task = Task::find($this->taskId);
@@ -41,7 +38,7 @@ class Index extends Component
         }
 
         $this->reset(['taskId', 'title', 'description']);
-        $this->tasks = Task::all(); // refresh list
+         $this->dispatch('show-toast');
     }
 
     public function edit($id) {
@@ -54,14 +51,20 @@ class Index extends Component
     public function delete(TaskServiceInterface $service, $id) {
         $service->delete(Task::findOrFail($id));
         session()->flash('message', 'Task deleted!');
-        $this->tasks = Task::all();
+    }
+
+    public function loadMore()
+    {
+        $this->perPage += 3;
     }
 
     public function render()
     {
+        $tasks = Task::latest()->paginate($this->perPage);
         return view('livewire.tasks.index', [
             'taskId' => $this->taskId,
-            'tasks' => Task::all(),
+            'tasks' => $tasks,
+            'hasMorePages' => $tasks->hasMorePages(),
         ]);
     }
 }
